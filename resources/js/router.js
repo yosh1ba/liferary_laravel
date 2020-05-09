@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 // ページコンポーネントをインポートする
 import ContentList from './pages/ContentList.vue'
 import Signin from './pages/Signin.vue'
-import Signup from "./pages/Signup.vue"
+import Register from "./pages/Register.vue"
 
 // VueRouterプラグインを使用する
 // これによって<RouterView />コンポーネントなどを使うことができる
@@ -21,8 +21,8 @@ const routes = [
         component: Signin
     },
     {
-      path: '/signup',
-      component: Signup
+      path: '/register',
+      component: Register
     }
 ]
 

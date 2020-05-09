@@ -44,7 +44,6 @@
                     label="パスワード"
                     name="password"
                     prepend-icon="mdi-lock"
-                    type="password"
                     v-model="registerForm.password"
                     :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="showPassword ? 'text' : 'password'"
@@ -52,12 +51,11 @@
                     @click:append="showPassword = !showPassword"
                   />
                   <v-text-field
-                    id="password_confirm"
+                    id="password_confirmation"
                     label="パスワード確認"
-                    name="password_confirm"
+                    name="password_confirmation"
                     prepend-icon="mdi-lock"
-                    type="password"
-                    v-model="registerForm.password_confirm"
+                    v-model="registerForm.password_confirmation"
                     :append-icon="showPasswordConfirm ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="showPasswordConfirm ? 'text' : 'password'"
                     counter
@@ -78,14 +76,14 @@
 
 <script>
   export default {
-    name: "Signup",
+    name: "Register",
     data() {
       return {
         registerForm: {
           name: '',
           email: '',
           password: '',
-          password_confirm: '',
+          password_confirmation: '',
         },
         showPassword: false,
         showPasswordConfirm: false

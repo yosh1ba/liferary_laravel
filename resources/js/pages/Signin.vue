@@ -30,7 +30,7 @@
                   name="email"
                   prepend-icon="mdi-email"
                   type="text"
-                  v-model="email"
+                  v-model="registerForm.email"
                 />
                 <v-text-field
                   id="password"
@@ -38,7 +38,7 @@
                   name="password"
                   prepend-icon="mdi-lock"
                   type="password"
-                  v-model="password"
+                  v-model="registerForm.password"
                   :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="showPassword ? 'text' : 'password'"
                   counter
@@ -62,16 +62,15 @@
     name: "Signin",
     data() {
       return {
-        email: '',
-        password: '',
+        loginForm:{
+          email: '',
+          password: '',
+        },
         showPassword: false
       }
     },
     methods: {
-      signin(){
-        console.log(this.email);
-        console.log(this.password);
-      }
+
     }
   }
 </script>

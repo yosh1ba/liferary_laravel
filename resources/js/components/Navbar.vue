@@ -44,7 +44,7 @@
         appTitle: 'Liferary',
         sidebar: false,
         menuItems: [
-            { title: '新規登録', path: '/signup', icon: 'mdi-face' },
+            { title: '新規登録', path: '/register', icon: 'mdi-face' },
             { title: 'サインイン', path: '/signin', icon: 'mdi-lock-open-outline' }
         ]
       }

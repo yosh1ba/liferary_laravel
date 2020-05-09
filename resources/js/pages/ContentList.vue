@@ -5,7 +5,6 @@
                     class="fill-height"
                     fluid
                 >
-
                     <h1>Content List</h1>
                     <div class="text-center">
                         <v-btn
