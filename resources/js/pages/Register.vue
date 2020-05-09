@@ -30,14 +30,14 @@
                     name="username"
                     prepend-icon="mdi-account"
                     type="text"
-                    v-model="name"
+                    v-model="registerForm.name"
                   />
                   <v-text-field
                     label="メールアドレス"
                     name="email"
                     prepend-icon="mdi-email"
                     type="text"
-                    v-model="email"
+                    v-model="registerForm.email"
                   />
                   <v-text-field
                     id="password"
@@ -45,7 +45,7 @@
                     name="password"
                     prepend-icon="mdi-lock"
                     type="password"
-                    v-model="password"
+                    v-model="registerForm.password"
                     :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="showPassword ? 'text' : 'password'"
                     counter
@@ -57,7 +57,7 @@
                     name="password_confirm"
                     prepend-icon="mdi-lock"
                     type="password"
-                    v-model="password_confirm"
+                    v-model="registerForm.password_confirm"
                     :append-icon="showPasswordConfirm ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="showPasswordConfirm ? 'text' : 'password'"
                     counter
@@ -67,7 +67,7 @@
               </v-card-text>
             <v-card-actions>
               <v-spacer />
-              <v-btn @click="signup" color="green darken-2 white--text">登録</v-btn>
+              <v-btn @click="register" color="green darken-2 white--text">登録</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -81,20 +81,21 @@
     name: "Signup",
     data() {
       return {
-        name: '',
-        email: '',
-        password: '',
+        registerForm: {
+          name: '',
+          email: '',
+          password: '',
+          password_confirm: '',
+        },
         showPassword: false,
-        password_confirm: '',
         showPasswordConfirm: false
       }
     },
     methods:{
-      signup(){
-        console.log(this.name);
-        console.log(this.email);
-        console.log(this.password);
-        console.log(this.password_confirm);
+      async register() {
+        await this.$store.dispatch('auth/register', this.registerForm)
+
+        this.$router.push('/')
       }
     }
   }
