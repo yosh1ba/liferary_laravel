@@ -21,6 +21,3 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
-
-// ログアウト
-Route::post('/signout', 'Auth\LoginController@logout')->name('signout');

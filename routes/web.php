@@ -12,4 +12,8 @@ Route::prefix('api')
 
         // ログイン
         Route::post('/signin', 'Auth\LoginController@login')->name('signin');
+
+        // ログアウト
+        Route::post('/signout', 'Auth\LoginController@logout')->name('signout');
+
     });
