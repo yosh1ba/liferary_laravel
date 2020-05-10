@@ -30,7 +30,7 @@
                   name="email"
                   prepend-icon="mdi-email"
                   type="text"
-                  v-model="registerForm.email"
+                  v-model="signinForm.email"
                 />
                 <v-text-field
                   id="password"
@@ -38,7 +38,7 @@
                   name="password"
                   prepend-icon="mdi-lock"
                   type="password"
-                  v-model="registerForm.password"
+                  v-model="signinForm.password"
                   :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="showPassword ? 'text' : 'password'"
                   counter
@@ -62,7 +62,7 @@
     name: "Signin",
     data() {
       return {
-        loginForm:{
+        signinForm:{
           email: '',
           password: '',
         },
@@ -70,7 +70,11 @@
       }
     },
     methods: {
+      async signin() {
+        await this.$store.dispatch('auth/signin', this.signinForm)
 
+        this.$router.push('/')
+      }
     }
   }
 </script>

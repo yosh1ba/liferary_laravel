@@ -22,14 +22,25 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items class="hidden-xs-only">
-                <v-btn
-                    text
-                    v-for="item in menuItems"
-                    :key="item.title"
-                    :to="item.path">
-                    <v-icon left dark>{{ item.icon }}</v-icon>
-                    {{ item.title }}
-                </v-btn>
+              <v-btn
+                  text
+                  v-for="item in menuItems"
+                  :key="item.title"
+                  :to="item.path">
+                  <v-icon left dark>{{ item.icon }}</v-icon>
+                  {{ item.title }}
+              </v-btn>
+              <v-btn
+                text
+                title="サインアウト"
+                @click="signout">
+                <v-icon left dark>
+                  mdi-door-closed
+                </v-icon>
+                サインアウト
+              </v-btn>
+
+
             </v-toolbar-items>
         </v-app-bar>
 
@@ -44,11 +55,18 @@
         appTitle: 'Liferary',
         sidebar: false,
         menuItems: [
-            { title: '新規登録', path: '/register', icon: 'mdi-face' },
+            { title: '新規登録', path: '/signup', icon: 'mdi-face' },
             { title: 'サインイン', path: '/signin', icon: 'mdi-lock-open-outline' }
         ]
       }
     },
+    methods: {
+      async signout(){
+        await this.$store.dispatch('auth/signout')
+
+        this.$router.push('/signin')
+      }
+    }
   };
 </script>
 
