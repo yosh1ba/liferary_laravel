@@ -5045,6 +5045,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Navbar",
   data: function data() {
@@ -5054,11 +5064,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       menuItems: [{
         title: '新規登録',
         path: '/signup',
-        icon: 'mdi-face'
+        icon: 'mdi-face',
+        onSignin: false
       }, {
         title: 'サインイン',
         path: '/signin',
-        icon: 'mdi-lock-open-outline'
+        icon: 'mdi-lock-open-outline',
+        onSignin: false
       }]
     };
   },
@@ -5084,6 +5096,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    }
+  },
+  computed: {
+    isSignin: function isSignin() {
+      return this.$store.getters['auth/check'];
+    },
+    username: function username() {
+      return this.$store.getters['auth/username'];
     }
   }
 });
@@ -9146,23 +9166,50 @@ var render = function() {
           _c(
             "v-list",
             { attrs: { nav: "", dense: "" } },
-            _vm._l(_vm.menuItems, function(item) {
-              return _c(
-                "v-list-item",
-                { key: item.title, attrs: { to: item.path } },
-                [
-                  _c(
-                    "v-list-item-action",
-                    [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
+            [
+              _vm._l(_vm.menuItems, function(item) {
+                return _vm.isSignin == item.onSignin
+                  ? _c(
+                      "v-list-item",
+                      { key: item.title, attrs: { to: item.path } },
+                      [
+                        _c(
+                          "v-list-item-action",
+                          [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("v-list-item-content", [_vm._v(_vm._s(item.title))])
+                      ],
+                      1
+                    )
+                  : _vm._e()
+              }),
+              _vm._v(" "),
+              _vm.isSignin == true
+                ? _c(
+                    "v-list-item",
+                    { on: { click: _vm.signout } },
+                    [
+                      _c(
+                        "v-list-item-action",
+                        [
+                          _c("v-icon", [
+                            _vm._v(
+                              "\n                mdi-door-closed\n              "
+                            )
+                          ])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-list-item-content", [_vm._v("サインアウト")])
+                    ],
                     1
-                  ),
-                  _vm._v(" "),
-                  _c("v-list-item-content", [_vm._v(_vm._s(item.title))])
-                ],
-                1
-              )
-            }),
-            1
+                  )
+                : _vm._e()
+            ],
+            2
           )
         ],
         1
@@ -9215,35 +9262,41 @@ var render = function() {
             { staticClass: "hidden-xs-only" },
             [
               _vm._l(_vm.menuItems, function(item) {
-                return _c(
-                  "v-btn",
-                  { key: item.title, attrs: { text: "", to: item.path } },
-                  [
-                    _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                      _vm._v(_vm._s(item.icon))
-                    ]),
-                    _vm._v(
-                      "\n              " + _vm._s(item.title) + "\n          "
+                return _vm.isSignin == item.onSignin
+                  ? _c(
+                      "v-btn",
+                      { key: item.title, attrs: { text: "", to: item.path } },
+                      [
+                        _c("v-icon", { attrs: { left: "", dark: "" } }, [
+                          _vm._v(_vm._s(item.icon))
+                        ]),
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(item.title) +
+                            "\n          "
+                        )
+                      ],
+                      1
                     )
-                  ],
-                  1
-                )
+                  : _vm._e()
               }),
               _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: { text: "", title: "サインアウト" },
-                  on: { click: _vm.signout }
-                },
-                [
-                  _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                    _vm._v("\n              mdi-door-closed\n            ")
-                  ]),
-                  _vm._v("\n            サインアウト\n          ")
-                ],
-                1
-              )
+              _vm.isSignin == true
+                ? _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "", title: "サインアウト" },
+                      on: { click: _vm.signout }
+                    },
+                    [
+                      _c("v-icon", { attrs: { left: "", dark: "" } }, [
+                        _vm._v("\n              mdi-door-closed\n            ")
+                      ]),
+                      _vm._v("\n            サインアウト\n          ")
+                    ],
+                    1
+                  )
+                : _vm._e()
             ],
             2
           )
@@ -64391,7 +64444,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var state = {
   user: null
 };
-var getters = {};
+var getters = {
+  // ログイン状態の真偽値を返すゲッター
+  check: function check(state) {
+    return !!state.user;
+  },
+  // ユーザー名を返すゲッター
+  username: function username(state) {
+    return state.user ? state.user : '';
+  }
+};
 var mutations = {
   setUser: function setUser(state, user) {
     state.user = user;

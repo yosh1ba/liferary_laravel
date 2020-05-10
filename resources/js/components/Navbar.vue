@@ -2,12 +2,20 @@
     <div>
         <v-navigation-drawer v-model="sidebar" app>
             <v-list nav dense>
-                <v-list-item v-for="item in menuItems" :key="item.title" :to="item.path">
+                <v-list-item v-for="item in menuItems" :key="item.title" :to="item.path" v-if="isSignin == item.onSignin">
                     <v-list-item-action>
                         <v-icon>{{ item.icon }}</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>{{ item.title }}</v-list-item-content>
                 </v-list-item>
+              <v-list-item  v-if="isSignin == true" @click="signout">
+                <v-list-item-action>
+                  <v-icon>
+                    mdi-door-closed
+                  </v-icon>
+                </v-list-item-action>
+                <v-list-item-content>サインアウト</v-list-item-content>
+              </v-list-item>
             </v-list>
         </v-navigation-drawer>
 
@@ -25,6 +33,7 @@
               <v-btn
                   text
                   v-for="item in menuItems"
+                  v-if="isSignin == item.onSignin"
                   :key="item.title"
                   :to="item.path">
                   <v-icon left dark>{{ item.icon }}</v-icon>
@@ -33,6 +42,7 @@
               <v-btn
                 text
                 title="サインアウト"
+                v-if="isSignin == true"
                 @click="signout">
                 <v-icon left dark>
                   mdi-door-closed
@@ -55,8 +65,8 @@
         appTitle: 'Liferary',
         sidebar: false,
         menuItems: [
-            { title: '新規登録', path: '/signup', icon: 'mdi-face' },
-            { title: 'サインイン', path: '/signin', icon: 'mdi-lock-open-outline' }
+            { title: '新規登録', path: '/signup', icon: 'mdi-face', onSignin: false },
+            { title: 'サインイン', path: '/signin', icon: 'mdi-lock-open-outline', onSignin: false }
         ]
       }
     },
@@ -65,6 +75,14 @@
         await this.$store.dispatch('auth/signout')
 
         this.$router.push('/signin')
+      }
+    },
+    computed: {
+      isSignin(){
+        return this.$store.getters['auth/check']
+      },
+      username(){
+        return this.$store.getters['auth/username']
       }
     }
   };

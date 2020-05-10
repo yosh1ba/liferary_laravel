@@ -4,7 +4,13 @@ const state = {
   user: null
 }
 
-const getters = {}
+const getters = {
+  // ログイン状態の真偽値を返すゲッター
+  check: state => !! state.user,
+
+  // ユーザー名を返すゲッター
+  username: state => state.user ? state.user : ''
+}
 
 const mutations = {
   setUser(state, user){
