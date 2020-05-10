@@ -29,14 +29,14 @@ const actions = {
     context.commit('setUser', response.data)
   },
 
-  async signout(context, data){
-    const response = await axios.post('/api/signout', data)
+  async signout(context){
+    const response = await axios.post('/api/signout')
     context.commit('setUser',null)
   },
 
   async currentUser(context){
     const response = await axios.get('/api/user')
-    const user = response.data || null
+    const user = response.data ? response.data : null;
     context.commit('setUser', user)
   }
 }

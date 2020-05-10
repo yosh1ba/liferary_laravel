@@ -1,8 +1,12 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 // APIのURL以外のリクエストに対してはindexテンプレートを返す
 // 画面遷移はフロントエンドのVueRouterが制御する
-Route::get('/{any?}', fn() => view('index'))->where('any', '.+');
+
 
 // 同一オリジンAPI
 Route::prefix('api')
@@ -19,3 +23,5 @@ Route::prefix('api')
         Route::get('/user', fn() => Auth::user())->name('user');
 
     });
+
+Route::get('/{any?}', fn() => view('index'))->where('any', '.+');

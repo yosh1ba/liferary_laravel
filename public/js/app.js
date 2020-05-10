@@ -63898,6 +63898,23 @@ var createApp = /*#__PURE__*/function () {
             return _store__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch('auth/currentUser');
 
           case 2:
+            new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
+              el: '#app',
+              router: _router__WEBPACK_IMPORTED_MODULE_2__["default"],
+              // ルーティングの定義を読み込む
+              store: _store__WEBPACK_IMPORTED_MODULE_5__["default"],
+              // Vuexのストアを読み込む
+              vuetify: _plugins_vuetify__WEBPACK_IMPORTED_MODULE_4__["default"],
+              // Vuetifyを読み込む
+              components: {
+                App: _App_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+              },
+              // ルートコンポーネントの使用を宣言する
+              template: '<App />' // ルートコンポーネントを描画する
+
+            });
+
+          case 3:
           case "end":
             return _context.stop();
         }
@@ -63910,21 +63927,6 @@ var createApp = /*#__PURE__*/function () {
   };
 }();
 
-new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
-  el: '#app',
-  router: _router__WEBPACK_IMPORTED_MODULE_2__["default"],
-  // ルーティングの定義を読み込む
-  store: _store__WEBPACK_IMPORTED_MODULE_5__["default"],
-  // Vuexのストアを読み込む
-  vuetify: _plugins_vuetify__WEBPACK_IMPORTED_MODULE_4__["default"],
-  // Vuetifyを読み込む
-  components: {
-    App: _App_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
-  },
-  // ルートコンポーネントの使用を宣言する
-  template: '<App />' // ルートコンポーネントを描画する
-
-});
 createApp();
 
 /***/ }),
@@ -64423,10 +64425,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_ContentList_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/ContentList.vue */ "./resources/js/pages/ContentList.vue");
 /* harmony import */ var _pages_Signin_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/Signin.vue */ "./resources/js/pages/Signin.vue");
 /* harmony import */ var _pages_Signup_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/Signup.vue */ "./resources/js/pages/Signup.vue");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
 
  // ページコンポーネントをインポートする
 
 
+
+ // auth ストアを使用するため追加
 
  // VueRouterプラグインを使用する
 // これによって<RouterView />コンポーネントなどを使うことができる
@@ -64438,7 +64443,14 @@ var routes = [{
   component: _pages_ContentList_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
 }, {
   path: '/signin',
-  component: _pages_Signin_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  component: _pages_Signin_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (_store__WEBPACK_IMPORTED_MODULE_5__["default"].getters['auth/check']) {
+      next('/');
+    } else {
+      next();
+    }
+  }
 }, {
   path: '/signup',
   component: _pages_Signup_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
@@ -64448,7 +64460,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
   // 追記
   routes: routes
-}); // VueRouterインスタンスをエクスポートする
+});
+console.log(router); // VueRouterインスタンスをエクスポートする
 // app.jsでインポートするため
 
 /* harmony default export */ __webpack_exports__["default"] = (router);
@@ -64538,7 +64551,7 @@ var actions = {
       }, _callee2);
     }))();
   },
-  signout: function signout(context, data) {
+  signout: function signout(context) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
@@ -64546,7 +64559,7 @@ var actions = {
           switch (_context3.prev = _context3.next) {
             case 0:
               _context3.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/signout', data);
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/signout');
 
             case 2:
               response = _context3.sent;
@@ -64572,7 +64585,7 @@ var actions = {
 
             case 2:
               response = _context4.sent;
-              user = response.data || null;
+              user = response.data ? response.data : null;
               context.commit('setUser', user);
 
             case 5:
