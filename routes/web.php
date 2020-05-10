@@ -24,4 +24,7 @@ Route::prefix('api')
 
     });
 
+
+// 上記ルーティングに当てはまらない場合のデフォルトルート的な意味合い
+// 上部に記述すると、JSONの返り値がHTMLになる地獄を見るため注意
 Route::get('/{any?}', fn() => view('index'))->where('any', '.+');
