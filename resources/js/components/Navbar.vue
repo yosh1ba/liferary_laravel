@@ -2,7 +2,7 @@
     <div>
         <v-navigation-drawer v-model="sidebar" app>
             <v-list nav dense>
-                <v-list-item v-for="item in menuItems" :key="item.title" :to="item.path" v-if="isSignin == item.onSignin">
+                <v-list-item v-for="item in filterdItems" :key="item.title" :to="item.path">
                     <v-list-item-action>
                         <v-icon>{{ item.icon }}</v-icon>
                     </v-list-item-action>
@@ -32,8 +32,7 @@
             <v-toolbar-items class="hidden-xs-only">
               <v-btn
                   text
-                  v-for="item in menuItems"
-                  v-if="isSignin == item.onSignin"
+                  v-for="item in filterdItems"
                   :key="item.title"
                   :to="item.path">
                   <v-icon left dark>{{ item.icon }}</v-icon>
@@ -58,6 +57,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+  import { mapGetters } from 'vuex'
   export default {
     name: "Navbar",
     data() {
@@ -74,15 +75,23 @@
       async signout(){
         await this.$store.dispatch('auth/signout')
 
+        if (this.apiStatus) {
         this.$router.push('/signin')
+        }
       }
     },
     computed: {
-      isSignin(){
-        return this.$store.getters['auth/check']
-      },
-      username(){
-        return this.$store.getters['auth/username']
+      ...mapState({
+        apiStatus: state => state.auth.apiStatus
+      }),
+      ...mapGetters({
+        isSignin: 'auth/check',
+        username: 'auth/username'
+      }),
+      filterdItems(){
+        return this.menuItems.filter(
+          item => (item.onSignin == this.$store.getters['auth/check'])
+        )
       }
     }
   };

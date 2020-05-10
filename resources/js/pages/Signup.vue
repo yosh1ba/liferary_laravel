@@ -25,9 +25,20 @@
             </v-toolbar>
               <v-card-text>
                 <v-form>
+                  <div v-if="registerErrors" class="">
+                    <ul v-if="registerErrors.name">
+                      <li v-for="msg in registerErrors.name" :key="msg" class="body-1 red--text">{{ msg }}</li>
+                    </ul>
+                    <ul v-if="registerErrors.email">
+                      <li v-for="msg in registerErrors.email" :key="msg" class="body-1 red--text">{{ msg }}</li>
+                    </ul>
+                    <ul v-if="registerErrors.password">
+                      <li v-for="msg in registerErrors.password" :key="msg" class="body-1 red--text">{{ msg }}</li>
+                    </ul>
+                  </div>
                   <v-text-field
                     label="ユーザー名"
-                    name="username"
+                    name="name"
                     prepend-icon="mdi-account"
                     type="text"
                     v-model="registerForm.name"
@@ -75,6 +86,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     name: "Signup",
     data() {
@@ -89,12 +101,28 @@
         showPasswordConfirm: false
       }
     },
+    computed: {
+      ...mapState({
+        apiStatus: state => state.auth.apiStatus,
+        registerErrors: state => state.auth.registerErrorMessages
+      })
+    },
     methods:{
       async register() {
+        // authストアのresigterアクションを呼び出す
         await this.$store.dispatch('auth/register', this.registerForm)
 
-        this.$router.push('/')
+        if (this.apiStatus) {
+          // トップページに移動する
+          this.$router.push('/')
+        }
+      },
+      clearError(){
+        this.$store.commit('auth/setRegisterErrorMessages', null)
       }
+    },
+    created() {
+      this.clearError()
     }
   }
 </script>

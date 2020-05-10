@@ -5,6 +5,7 @@ import VueRouter from 'vue-router'
 import ContentList from './pages/ContentList.vue'
 import Signin from './pages/Signin.vue'
 import Signup from './pages/Signup.vue'
+import SystemError from "./pages/errors/System.vue";
 
 // auth ストアを使用するため追加
 import store from './store'
@@ -33,6 +34,10 @@ const routes = [
   {
     path: '/signup',
     component: Signup
+  },
+  {
+    path: '/500',
+    component: SystemError
   }
 ]
 
@@ -41,8 +46,6 @@ const router = new VueRouter({
     mode: 'history',  // 追記
     routes
 })
-
-console.log(router);
 
 // VueRouterインスタンスをエクスポートする
 // app.jsでインポートするため

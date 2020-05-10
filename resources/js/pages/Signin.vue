@@ -25,6 +25,14 @@
             </v-toolbar>
             <v-card-text>
               <v-form>
+                <div v-if="loginErrors" class="">
+                  <ul v-if="loginErrors.email">
+                    <li v-for="msg in loginErrors.email" :key="msg" class="body-1 red--text">{{ msg }}</li>
+                  </ul>
+                  <ul v-if="loginErrors.password">
+                    <li v-for="msg in loginErrors.password" :key="msg" class="body-1 red--text">{{ msg }}</li>
+                  </ul>
+                </div>
                 <v-text-field
                   label="メールアドレス"
                   name="email"
@@ -37,7 +45,6 @@
                   label="パスワード"
                   name="password"
                   prepend-icon="mdi-lock"
-                  type="password"
                   v-model="signinForm.password"
                   :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="showPassword ? 'text' : 'password'"
@@ -58,6 +65,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     name: "Signin",
     data() {
@@ -69,12 +77,27 @@
         showPassword: false
       }
     },
+    computed: {
+      ...mapState({
+        apiStatus: state => state.auth.apiStatus,
+        loginErrors: state => state.auth.loginErrorMessages
+      })
+    },
     methods: {
       async signin() {
         await this.$store.dispatch('auth/signin', this.signinForm)
 
-        this.$router.push('/')
+        if(this.apiStatus){
+          // トップページに移動する
+          this.$router.push('/')
+        }
+      },
+      clearError(){
+        this.$store.commit('auth/setLoginErrorMessages', null)
       }
+    },
+    created() {
+      this.clearError()
     }
   }
 </script>

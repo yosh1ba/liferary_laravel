@@ -23,6 +23,13 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+// axiosのresponseインターセプターはレスポンスを受けた後の処理を上書きする
+// 第一引数は成功時の処理、第二引数は失敗時の処理
+window.axios.interceptors.response.use(
+  response => response,
+  error => error.response || error
+)
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
