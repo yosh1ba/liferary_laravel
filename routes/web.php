@@ -16,4 +16,6 @@ Route::prefix('api')
         // ログアウト
         Route::post('/signout', 'Auth\LoginController@logout')->name('signout');
 
+        Route::get('/user', fn() => Auth::user())->name('user');
+
     });
