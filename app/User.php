@@ -36,4 +36,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    // userモデルに対して postsメソッドが紐づくことを定義している
+    // ユーザ情報に紐付く投稿情報を取得できるようにする
+    public function post()
+    {
+        return $this->hasOne('App\Post');
+    }
+
+    // Userモデルに対して commentsメソッドが紐づくことを定義している
+    // ユーザ情報に紐付く投稿情報を取得できるようにする
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
+    // Userモデルに対して likesメソッドが紐づくことを定義している
+    // ユーザ情報に紐付く投稿情報を取得できるようにする
+    public function likes()
+    {
+        return $this->hasMany('App\Like');
+    }
 }
