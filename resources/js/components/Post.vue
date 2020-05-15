@@ -6,15 +6,16 @@
     sm="6">
     <v-card class="mx-auto">
       <v-img
-        height="200"
-        src="https://encrypted.google.com/books/content?id=6juLZwEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+        min-height="200"
+        max-height="200"
+        :src="item.book.image"
       />
       <v-card-title primary-title>
-        楽しく、考えるための本
+        {{item.head}}
       </v-card-title>
       <v-card-subtitle class="pb-0">
-        『ソフィーの世界上』
-        ヨースタイン・ゴルデル
+        『{{item.book.title}}』
+        {{item.book.author}}
       </v-card-subtitle>
       <v-card-actions>
         <v-btn

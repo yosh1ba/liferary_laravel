@@ -18,7 +18,11 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    component: ContentList
+    component: ContentList,
+    // props: route => {
+    //   const page = route.query.page
+    //   return {page: /^[1-9][0-9]*$/.test(page) ? page * 1 : 1 }
+    // }
   },
   {
     path: '/signin',
@@ -44,6 +48,9 @@ const routes = [
 // VueRouterインスタンスを作成する
 const router = new VueRouter({
     mode: 'history',  // 追記
+    scrollBehavior () {
+      return { x: 0, y: 0 }
+    },
     routes
 })
 

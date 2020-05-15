@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
 
+    // TODO: JSONで返却される内容を絞り込むかどうか
+    
+
     // idカラムは変更したくないため、ロックをかける
     protected $guarded = ['id'];
 
@@ -42,5 +45,7 @@ class Post extends Model
     {
         return $this->hasMany('App\Comment');
     }
+
+
 
 }

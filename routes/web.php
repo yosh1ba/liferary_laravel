@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,12 @@ Route::prefix('api')
         // ログアウト
         Route::post('/signout', 'Auth\LoginController@logout')->name('signout');
 
+        // 認証ユーザー取得
         Route::get('/user', fn() => Auth::user())->name('user');
+
+        // 投稿一覧取得
+        Route::get('/posts', 'PostController@index')->name('post.index');
+
 
     });
 
