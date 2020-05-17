@@ -21,8 +21,9 @@
         <v-btn
           text
           color="deep-purple accent-4"
+          :to="`/posts/${item.id}`"
         >
-          Learn More
+          詳しく見る
         </v-btn>
       </v-card-actions>
     </v-card>

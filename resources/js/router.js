@@ -6,6 +6,7 @@ import ContentList from './pages/ContentList.vue'
 import Signin from './pages/Signin.vue'
 import Signup from './pages/Signup.vue'
 import SystemError from "./pages/errors/System.vue";
+import PostDetail from './components/PostDetail.vue'
 
 // auth ストアを使用するため追加
 import store from './store'
@@ -19,10 +20,11 @@ const routes = [
   {
     path: '/',
     component: ContentList,
-    // props: route => {
-    //   const page = route.query.page
-    //   return {page: /^[1-9][0-9]*$/.test(page) ? page * 1 : 1 }
-    // }
+  },
+  {
+    path: '/posts/:id',
+    component: PostDetail,
+    props: true
   },
   {
     path: '/signin',

@@ -27,6 +27,9 @@ Route::prefix('api')
         // 投稿一覧取得
         Route::get('/posts', 'PostController@index')->name('post.index');
 
+        // 投稿詳細取得
+        Route::get('/posts/{id}', 'PostController@show')->name('post.show');
+
 
     });
 
