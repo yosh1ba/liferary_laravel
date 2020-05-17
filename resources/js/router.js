@@ -19,7 +19,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    component: ContentList,
+    component: ContentList
   },
   {
     path: '/posts/:id',

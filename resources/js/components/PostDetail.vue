@@ -28,13 +28,21 @@
 		<h3 class="mt-3">わたしにとってこんな本</h3>
 		<p>{{post.head}}</p>
 		<p>{{post.detail}}</p>
-		<RouterLink
-		 :to="`${$store.state.route.from.fullPath}`"
-		>
-		一つ前に戻る
-		</RouterLink>
-		</v-card>
 
+		<v-chip
+      class="ma-2"
+      color="green"
+      text-color="white"
+    >
+			<router-link
+				tag="span" 
+				style="cursor: pointer"
+		 		:to="`${$store.state.route.from.fullPath}`"
+			>
+				一つ前に戻る
+			</router-link>
+		</v-chip>
+		</v-card>
 	</v-container>
 </v-content>
 </template>

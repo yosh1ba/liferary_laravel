@@ -30,7 +30,7 @@
 
 <script>
 	import Post from '../components/Post'
-  import {OK} from "../util";
+  import {OK} from "../util"
   export default {
     name: "ContentList",
     components: {
@@ -40,12 +40,12 @@
     data(){
         return {
           posts: [], // 投稿一覧を入れる
-          page: 1,
           lastPage: 0
         }
     },
     methods: {
         async fetchPosts(){
+
           // /api/posts へGETリクエスストを送り、結果をresponseに代入する
           const response = await axios.get(`/api/posts/?page=${this.page}`)
 
@@ -60,7 +60,19 @@
           // response.data で response のJSONが取得できる
           // JSON内の更に中にあるdata項目に取得した投稿一覧の情報が入っている
           this.posts = response.data.data
+        },
+    },
+    computed: {
+      // v-modelに指定したpageについて、Vuexを用いた双方向データバインディングを実現
+      // Vuexで現在のページを保持することで、投稿詳細ページから戻る際に直前のページネーションを指定できる
+      page: {
+        get(){
+          return this.$store.getters['page/currentPage']
+        },
+        set(val) {
+          return this.$store.commit('page/setPage',val)
         }
+      }
     },
     watch: {
       // $route オブジェクトが変化したときに fetchPosts メソッドを読み出す
