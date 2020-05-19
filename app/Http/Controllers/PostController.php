@@ -51,7 +51,7 @@ class PostController extends Controller
         $post->comments()->save($comment);
 
         // その投稿に関する最新のコメント一覧を取得し、HTTPレスポンスとして返す
-        $new_comment = Comment::where('id', $comment->id)->with('user')->first();
+        $new_comment = Comment::where('id', $comment->id)->with('user')->orderBy(Comment::CREATED_AT, 'desc')->first();
         return response($new_comment, 201);
 
 

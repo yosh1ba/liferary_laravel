@@ -65,6 +65,9 @@
 			<v-form
 				v-if="isSignin"
 			>
+				<div v-if="commentErrors" class="">
+					<p v-for="msg in commentErrors.comment" :key="msg" class="body-1 red--text">{{ msg }}</p>
+				</div>
 				<v-textarea
 					label="コメント"
 					v-model="commentContent"
@@ -76,7 +79,7 @@
 				v-if="isSignin"
 			>
 				<v-col class="d-flex flex-row-reverse pt-0">
-					<v-btn color="green" dark @click="addComment" v-scroll-to="'header'">送信</v-btn>
+					<v-btn color="green" dark @click="addComment">送信</v-btn>
 				</v-col>
 			</v-row>
 			<v-btn
@@ -97,13 +100,14 @@
 </template>
 
 <script>
-import {OK} from "../util";
+import {OK, UNPROCESSABLE_ENTITY, CREATED} from "../util";
 export default {
 	name: 'PostDetail',
 	data(){
 		return {
 			post: [],
-			commentContent: ''
+			commentContent: '',
+			commentErrors: null
 		}
 	},
 	props: {
@@ -117,27 +121,41 @@ export default {
 
 			const response = await axios.get(`/api/posts/${this.id}`)
 
-			console.log(response.data)
-
 			if(response.status !== OK){
 					this.$store.commit('error/setCode', response.status)
 					return false
 			}
+
 			this.post = response.data
 		},
 		async addComment(){
 			const response = await axios.post(`/api/posts/${this.id}/comments`, {
 				comment: this.commentContent
 			})
+
+			// バリデーションエラーがあった場合、エラー文をプロパティにセットする
+			if(response.status === UNPROCESSABLE_ENTITY){
+				this.commentErrors = response.data.errors
+				console.log(this.commentErrors)
+				return false
+			}
+
+			// コメント入力欄のリセット
 			this.commentContent = ''
+			// コメントエラーのリセット
+			this.commentErrors = null
 
-			console.log(response.data)
+			// 成功ではない場合、ステータスをストアする
+			if(response.status !== CREATED){
+				this.$store.commit('error/setCode', response.status)
+				return false
+			}
+			
+			// コメントをリアルタイムに反映させるため、プロパティへレスポンスデータを追加する
 			this.post.comments = [
+				...this.post.comments,
 				response.data,
-				...this.post.comments
 			]
-
-			console.log(this.post.comments)
 		}
 	},
 	computed: {
