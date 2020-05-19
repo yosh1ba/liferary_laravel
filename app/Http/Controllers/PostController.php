@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Post;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreComment;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -21,9 +25,35 @@ class PostController extends Controller
     public function show(string $id)
     {
 
-        $post = Post::where('id', $id)->with(['user', 'book'])->first();
+        $post = Post::where('id', $id)->with(['user', 'book', 'comments.user'])->first();
 
         return $post ?? abort(404);
+
+    }
+
+    // コメント投稿用メソッド
+    public function addComment(Post $post, StoreComment $request)
+    {
+
+        // 現在の投稿情報（Postクラス）を $post として受け取る
+        // リクエスト情報（StoreCommentクラス）を $request として受け取る
+
+        // Commentクラスインスタンス$commentを作成
+        $comment = new Comment();
+
+        // $commentのcommentプロパティに$requestのcommentプロパティをセットする
+        $comment->comment = $request->get('comment');
+
+        // $commentのuser_idプロパティに、ログイン中のユーザIDをセットする
+        $comment->user_id = Auth::user()->id;
+
+        // $postのcommentsメソッドを実行し、DBを更新する
+        $post->comments()->save($comment);
+
+        // その投稿に関する最新のコメント一覧を取得し、HTTPレスポンスとして返す
+        $new_comment = Comment::where('id', $comment->id)->with('user')->first();
+        return response($new_comment, 201);
+
 
     }
 

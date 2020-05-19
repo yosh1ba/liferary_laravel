@@ -30,6 +30,9 @@ Route::prefix('api')
         // 投稿詳細取得
         Route::get('/posts/{id}', 'PostController@show')->name('post.show');
 
+        // コメント
+        Route::post('/posts/{post}/comments', 'PostController@addComment')->name('post.comment');
+
 
     });
 
