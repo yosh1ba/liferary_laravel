@@ -24,10 +24,13 @@
 						<p class="mb-0">投稿者：{{post.user.name}}</p>
 					</v-card-text>
 					<v-card-actions class="pl-3">
-						<v-btn icon>
+						<v-btn v-if="post.liked_by_user" icon color="pink" @click="onLikeClick">
 							<v-icon>mdi-heart</v-icon>
 						</v-btn>
-						10
+						<v-btn v-else icon @click="onLikeClick">
+							<v-icon	con>mdi-heart</v-icon>
+						</v-btn>
+						{{post.likes_count}}
 					</v-card-actions>				
 				</v-col>
 			</v-row>
@@ -136,7 +139,6 @@ export default {
 			// バリデーションエラーがあった場合、エラー文をプロパティにセットする
 			if(response.status === UNPROCESSABLE_ENTITY){
 				this.commentErrors = response.data.errors
-				console.log(this.commentErrors)
 				return false
 			}
 
@@ -156,6 +158,40 @@ export default {
 				...this.post.comments,
 				response.data,
 			]
+		},
+		async like(){
+			const response = await axios.put(`/api/posts/${this.id}/like`)
+
+			if(response.status !== OK){
+				this.$store.commit('error/setCode', response.status)
+				return false
+			}
+
+			this.post.likes_count = this.post.likes_count + 1
+			this.post.liked_by_user = true
+		},
+		async unlike(){
+			const response = await axios.delete(`/api/posts/${this.id}/like`)
+
+			if(response.status !== OK){
+				this.$store.commit('error/setCode', response.status)
+				return false
+			}
+
+			this.post.likes_count = this.post.likes_count - 1
+			this.post.liked_by_user = false
+		},
+		onLikeClick(){
+			if (!this.isSignin){
+				alert('いいね機能を使用する場合はサインインしてください')
+				return false
+			}
+
+			if(this.post.liked_by_user){
+				this.unlike()
+			} else {
+				this.like()
+			}
 		}
 	},
 	computed: {

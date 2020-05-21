@@ -33,6 +33,12 @@ Route::prefix('api')
         // コメント
         Route::post('/posts/{post}/comments', 'PostController@addComment')->name('post.comment');
 
+        // いいね追加
+        Route::put('/posts/{post}/like', 'PostController@like')->name('post.like');
+
+        // いいね解除
+        Route::delete('/posts/{id}/like', 'PostController@unlike');
+
 
     });
 

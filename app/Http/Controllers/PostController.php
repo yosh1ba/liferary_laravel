@@ -25,8 +25,9 @@ class PostController extends Controller
     public function show(string $id)
     {
 
-        $post = Post::where('id', $id)->with(['user', 'book', 'comments.user'])->first();
-
+        $post = Post::where('id', $id)->with(['user', 'book', 'comments.user', 'likes'])->first();
+        Log::debug(print_r($post,true));
+        
         return $post ?? abort(404);
 
     }
@@ -55,6 +56,35 @@ class PostController extends Controller
         return response($new_comment, 201);
 
 
+    }
+
+    // いいね追加用メソッド
+    public function like(string $id)
+    {
+        $post = Post::where('id', $id)->with('likes')->first();
+
+        if( !$post ){
+            abort(404);
+        }
+
+        $post->likes()->detach(Auth::user()->id);
+        $post->likes()->attach(Auth::user()->id);
+
+        return ["post_id" => $id];
+    }
+
+    // いいね解除用メソッド
+    public function unlike(string $id)
+    {
+        $post = Post::where('id', $id)->with('likes')->first();
+
+        if( !$post ){
+            abort(404);
+        }
+
+        $post->likes()->detach(Auth::user()->id);
+
+        return ["post_id" => $id];
     }
 
 }

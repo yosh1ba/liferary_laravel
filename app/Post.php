@@ -2,7 +2,10 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\ErrorHandler\Debug;
 
 class Post extends Model
 {
@@ -12,6 +15,30 @@ class Post extends Model
 
     // idカラムは変更したくないため、ロックをかける
     protected $guarded = ['id'];
+
+    protected $appends = [
+        'likes_count', 'liked_by_user',
+    ];
+
+    // like_countアクセサ
+    public function getLikesCountAttribute()
+    {
+        return $this->likes->count();
+    }
+
+    // liked_by_userアクセサ
+    public function getLikedByUserAttribute()
+    {
+        // ログインしていなければfalseを返す
+        if(Auth::guest()){
+            return false;
+        }
+
+        // ログインしていれば、そのユーザーが含まれているいいねがあるかを真偽値で返す
+        return $this->likes->contains(function ($user) {
+            return $user->id === Auth::user()->id;
+        });
+    }
 
     public function user()
     {
@@ -36,7 +63,7 @@ class Post extends Model
     // 投稿からいいね情報を取得できるようにする
     public function likes()
     {
-        return $this->hasMany('App\Like');
+        return $this->belongsToMany('App\User', 'likes')->withTimestamps();
     }
 
     // Postモデルに対して commentsメソッドが紐づくことを定義している
