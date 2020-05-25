@@ -112,6 +112,21 @@ const actions = {
 
     context.commit('setApiStatus', false)
     context.commit('error/setCode', response.status, { root: true })
+  },
+
+  async withdraw (context) {
+    console.log(context)
+    context.commit('setApiStatus', null);
+    const response = await axios.post('/api/withdraw','106');
+
+    if (response.status === OK) {
+      context.commit('setApiStatus', true)
+      context.commit('setUser', null)
+      return false
+    }
+    context.commit('setApiStatus', false)
+    context.commit('error/setCode', response.status, { root: true })
+
   }
 
 }

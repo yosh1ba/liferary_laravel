@@ -48,6 +48,16 @@
                 </v-icon>
                 サインアウト
               </v-btn>
+              <v-btn
+                text
+                title="退会"
+                v-if="isSignin == true"
+                @click="confirm">
+                <v-icon left dark>
+                  mdi-door-closed
+                </v-icon>
+                退会
+              </v-btn>
 
 
             </v-toolbar-items>
@@ -67,7 +77,7 @@
         sidebar: false,
         menuItems: [
             { title: '新規登録', path: '/signup', icon: 'mdi-face', onSignin: false },
-            { title: 'サインイン', path: '/signin', icon: 'mdi-lock-open-outline', onSignin: false },
+            { title: 'サインイン', path: '/signin',icon: 'mdi-lock-open-outline', onSignin: false },
             { title: '書籍登録', path: '/bookpost', icon: 'mdi-book-plus', onSignin: true },
         ]
       }
@@ -78,6 +88,13 @@
 
         if (this.apiStatus) {
         this.$router.push('/signin')
+        }
+      },
+      async confirm(){
+        const result = window.confirm('退会してよろしいですか？');
+        if(result){
+          await this.$store.dispatch('auth/withdraw')
+          this.$router.go({name:'HOME'})
         }
       }
     },

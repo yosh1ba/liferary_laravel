@@ -26,6 +26,9 @@ Route::prefix('api')
         // 認証ユーザー取得
         Route::get('/user', fn() => Auth::user())->name('user');
 
+        // 退会
+        Route::post('/withdraw', 'Auth\LoginController@withdraw')->name('withdraw');
+
         // 投稿一覧取得
         Route::get('/posts', 'PostController@index')->name('post.index');
 
@@ -52,7 +55,6 @@ Route::prefix('api')
 
         // 投稿情報削除
         Route::delete('/posts/registerd/{id}', 'PostController@delete')->name('post.delete');
-
 
         // GoogleBooksAPI
         Route::post('/book', 'GoogleBooks')->name('book');
