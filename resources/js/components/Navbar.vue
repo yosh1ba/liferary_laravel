@@ -67,7 +67,8 @@
         sidebar: false,
         menuItems: [
             { title: '新規登録', path: '/signup', icon: 'mdi-face', onSignin: false },
-            { title: 'サインイン', path: '/signin', icon: 'mdi-lock-open-outline', onSignin: false }
+            { title: 'サインイン', path: '/signin', icon: 'mdi-lock-open-outline', onSignin: false },
+            { title: '書籍登録', path: '/bookpost', icon: 'mdi-book-plus', onSignin: true },
         ]
       }
     },
@@ -86,7 +87,7 @@
       }),
       ...mapGetters({
         isSignin: 'auth/check',
-        username: 'auth/username'
+        userid: 'auth/userid'
       }),
       filterdItems(){
         return this.menuItems.filter(

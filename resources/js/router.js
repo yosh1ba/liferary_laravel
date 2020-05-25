@@ -5,8 +5,9 @@ import VueRouter from 'vue-router'
 import ContentList from './pages/ContentList.vue'
 import Signin from './pages/Signin.vue'
 import Signup from './pages/Signup.vue'
-import SystemError from "./pages/errors/System.vue";
+import SystemError from "./pages/errors/System.vue"
 import PostDetail from './components/PostDetail.vue'
+import BookPost from './components/BookPost.vue'
 
 // auth ストアを使用するため追加
 import store from './store'
@@ -42,10 +43,20 @@ const routes = [
     component: Signup
   },
   {
+    path: '/bookpost',
+    component: BookPost,
+    meta: {
+      requiresAuth: true
+    }
+
+  },
+  {
     path: '/500',
     component: SystemError
   }
 ]
+
+
 
 // VueRouterインスタンスを作成する
 const router = new VueRouter({
@@ -54,6 +65,23 @@ const router = new VueRouter({
       return { x: 0, y: 0 }
     },
     routes
+})
+
+router.beforeEach((to, from, next) => {
+  if( to.matched.some(record => record.meta.requiresAuth)){
+    if(store.getters['auth/check']){
+      next(
+        next()
+      )
+    }else{
+      next({
+        path: '/signin',
+        query: {redirect: to.fullPath}
+      })
+    }
+  }else {
+    next()
+  }
 })
 
 // VueRouterインスタンスをエクスポートする

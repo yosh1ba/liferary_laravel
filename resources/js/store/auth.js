@@ -13,8 +13,13 @@ const getters = {
   // ログイン状態の真偽値を返すゲッター
   check: state => !! state.user,
 
+  // ユーザーIDを返すゲッター
+  userid: state => state.user ? state.user.id : '',
+  
   // ユーザー名を返すゲッター
   username: state => state.user ? state.user.name : ''
+
+
 }
 
 const mutations = {
@@ -59,11 +64,13 @@ const actions = {
   // サインイン
   async signin(context, data){
     context.commit('setApiStatus', null)
+    console.log(data)
     const response = await axios.post('/api/signin', data)
     // エラーレスポンスが帰ってきた場合の処理を resources/js/bootstrap.js に記述している
 
     if (response.status === OK) {
       context.commit('setApiStatus', true)
+      console.log(response)
       context.commit('setUser', response.data)
       return false
     }

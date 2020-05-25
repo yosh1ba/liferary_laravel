@@ -21,6 +21,7 @@ class User extends Authenticatable
 
     // nameのみを返すようにする
     protected $visible = [
+        'id',
         'name'
     ];
 
