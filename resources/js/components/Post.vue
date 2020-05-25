@@ -4,10 +4,11 @@
     lg="3"
     md="4"
     sm="6">
-    <v-card class="mx-auto">
+    <v-card class="mx-auto pt-3" min-height="400">
       <v-img
-        min-height="200"
         max-height="200"
+        contain
+        
         :src="item.book.image"
       />
       <v-card-title primary-title>

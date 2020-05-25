@@ -33,7 +33,16 @@ class GoogleBooks extends Controller
 			}else{
 					// 書籍情報を格納
 					$books = $data['items'][0]['volumeInfo'];
-					$books['imageLinks']['thumbnail'] = str_ireplace('http://books.google.com','https://encrypted.google.com',$books['imageLinks']['thumbnail']);
+					Log::debug($books);
+
+					if(!array_key_exists('imageLinks',$books)){
+						$books['imageLinks']['thumbnail'] = '/img/noimage.png';
+					}else {
+
+						$books['imageLinks']['thumbnail'] = str_ireplace('http://books.google.com','https://encrypted.google.com',$books['imageLinks']['thumbnail']);
+					}
+
+
 			}
 			// 書籍情報を返す
 			return $books;
