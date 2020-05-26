@@ -22,7 +22,7 @@ class PostController extends Controller
     {
 
         $posts = Post::with(['user', 'book'])
-            ->orderBy(Post::CREATED_AT, 'desc')->paginate(6);
+            ->orderBy(Post::CREATED_AT, 'desc')->paginate(4);
         return $posts;
     }
 

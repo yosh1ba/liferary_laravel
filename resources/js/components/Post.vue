@@ -4,7 +4,7 @@
     lg="3"
     md="4"
     sm="6">
-    <v-card class="mx-auto pt-3" min-height="400">
+    <v-card class="mx-auto pt-3" min-height="380">
       <v-img
         max-height="200"
         contain

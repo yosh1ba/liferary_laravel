@@ -68,9 +68,7 @@
 
 											</v-card>
 										</v-col>
-										<v-col
-											cols="auto"
-										>
+										<v-col>
 												<v-card-title primary-title>『{{book.title}}』</v-card-title>
 												<v-card-text class="pl-5">
 												<p v-if="registerd">{{book.author}}　{{book.published_on}}</p>

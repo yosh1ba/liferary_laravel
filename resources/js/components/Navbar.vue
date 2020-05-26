@@ -16,6 +16,14 @@
                 </v-list-item-action>
                 <v-list-item-content>サインアウト</v-list-item-content>
               </v-list-item>
+              <v-list-item  v-if="isSignin == true" @click="confirm">
+                <v-list-item-action>
+                  <v-icon>
+                    mdi-eraser
+                  </v-icon>
+                </v-list-item-action>
+              <v-list-item-content>退会</v-list-item-content>
+            </v-list-item>
             </v-list>
         </v-navigation-drawer>
 
@@ -58,8 +66,6 @@
                 </v-icon>
                 退会
               </v-btn>
-
-
             </v-toolbar-items>
         </v-app-bar>
 

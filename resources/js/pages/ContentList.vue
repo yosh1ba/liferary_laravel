@@ -1,5 +1,5 @@
 <template>
-<v-content>
+<v-content class="pa-0">
     <v-container
 			fill-height
 			>
@@ -14,11 +14,11 @@
           />
 
         </v-row>
-        <div class="text-center mt-5 mx-auto">
+        <div class="text-center mt-5 mx-auto" :class="{move:minWidth}">
           <v-pagination
             v-model="page"
             :length="lastPage"
-            :total-visible="7"
+            :total-visible="totalVisible"
             v-scroll-to="'header'"
           >
           </v-pagination>
@@ -40,7 +40,9 @@
     data(){
         return {
           posts: [], // 投稿一覧を入れる
-          lastPage: 0
+          lastPage: 0,
+          totalVisible: 0,
+          minWidth:false
         }
     },
     methods: {
@@ -61,6 +63,23 @@
           // JSON内の更に中にあるdata項目に取得した投稿一覧の情報が入っている
           this.posts = response.data.data
         },
+        handleResize: function() {
+          // 幅320pxの端末でページネーションがはみだすため、全体を左に寄せる
+          // 画面サイズを検知し、320pxならminWidthプロパティをtrueにする
+          // minWidthがtrueの場合のみ、translateXが適用される
+          if(window.innerWidth == 320){
+            this.minWidth=true
+          } else {
+            this.minWidth=false
+          }
+
+          if(window.innerWidth < 600){
+            this.totalVisible = 5;
+
+          } else{
+            this.totalVisible = 7;
+          }
+       }
     },
     computed: {
       // v-modelに指定したpageについて、Vuexを用いた双方向データバインディングを実現
@@ -85,10 +104,19 @@
       page: function(){
         this.fetchPosts();
       }
+    },
+    created() {
+      window.addEventListener('resize', this.handleResize)
+      this.handleResize()
+    },
+    Destroyed() {
+      window.removeEventListener('resize', this.handleResize)
     }
   }
 </script>
 
 <style scoped>
-
+.move{
+  transform: translateX(-10px);
+}
 </style>
