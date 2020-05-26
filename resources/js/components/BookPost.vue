@@ -144,7 +144,20 @@
 								</v-form>
 							</v-card-text>
 							<v-card-actions
-								class="justify-end pa-4 pt-0">
+								class="justify-end pa-4 pt-0"
+							>
+								<v-btn
+									color="gray"
+									light
+								>
+									<router-link
+										tag="span" 
+										style="cursor: pointer"
+										:to="`${$store.state.route.from.fullPath}`"
+									>
+										一つ前に戻る
+									</router-link>
+								</v-btn>
 								<v-btn v-if="registerd" @click="confirm" color="red white--text">削除</v-btn>
 								<v-btn v-else @click="register" color="green darken-2 white--text">登録</v-btn>
 							</v-card-actions>
