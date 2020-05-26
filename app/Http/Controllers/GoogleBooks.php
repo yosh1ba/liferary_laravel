@@ -35,12 +35,22 @@ class GoogleBooks extends Controller
 					$books = $data['items'][0]['volumeInfo'];
 					Log::debug($books);
 
+					// 著者情報がない場合のダミーデータ
+					if(!array_key_exists('authors',$books)){
+						$books['authors'][0] = '著者情報なし';
+					}
+
+					// 
+					if(!array_key_exists('publishedDate',$books)){
+						$books['publishedDate'] = '出版日情報なし';
+					}
+
 					if(!array_key_exists('imageLinks',$books)){
 						$books['imageLinks']['thumbnail'] = '/img/noimage.png';
 					}else {
-
 						$books['imageLinks']['thumbnail'] = str_ireplace('http://books.google.com','https://encrypted.google.com',$books['imageLinks']['thumbnail']);
 					}
+
 
 
 			}
