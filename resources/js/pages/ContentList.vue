@@ -49,7 +49,14 @@
         async fetchPosts(){
 
           // /api/posts へGETリクエスストを送り、結果をresponseに代入する
-          const response = await axios.get(`/api/posts/?page=${this.page}`)
+          //const response = await axios.get(`/api/posts/?page=${this.page}`)
+          const response = await axios.get(`/api/posts/`, 
+          {
+            params: {
+              page: this.page
+            }
+          }
+          )
 
           // レスポンスがNGであればエラーコードをストアにコミットする
           if(response.status !== OK){
