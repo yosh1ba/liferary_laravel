@@ -1,39 +1,32 @@
-import './bootstrap'
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
 
-import Vue from 'vue'
-// ルーティングの定義をインポートする
-import router from './router'
-// ルートコンポーネントをインポートする
-import App from './App.vue'
-// Vuetifyをインポートする
-import vuetify from './plugins/vuetify'
-// Vuex用ストアをインポートする
-import store from './store'
-// Veutify用cssをインポートする
-import 'vuetify/dist/vuetify.min.css'
-// ページネーション時にスクロールをトップに戻すためのプラグイン
-import vuescrollto from './plugins/vue-scrollto'
-// Vuexでルート情報を格納するためのプラグイン
-import { sync } from 'vuex-router-sync'
+require('./bootstrap');
 
-// Vueインスタンス生成前に currentUser メソッドを呼び出す
-// すでに store を import 済みのため、Vueインスタンス生成前でもアクションを dispatchメソッドで呼び出すことが可能
-const createApp = async () => {
-  await store.dispatch('auth/currentUser');
+window.Vue = require('vue');
 
-  new Vue({
+/**
+ * The following block of code may be used to automatically register your
+ * Vue components. It will recursively scan this directory for the Vue
+ * components and automatically register them with their "basename".
+ *
+ * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ */
+
+// const files = require.context('./', true, /\.vue$/i)
+// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+
+Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+
+const app = new Vue({
     el: '#app',
-    router, // ルーティングの定義を読み込む
-    store,  // Vuexのストアを読み込む
-    vuetify,  // Vuetifyを読み込む
-    vuescrollto,
-    components: { App }, // ルートコンポーネントの使用を宣言する
-    template: '<App />' // ルートコンポーネントを描画する
-  })
-}
-
-sync(store, router);
-
-createApp();
-
-
+});
