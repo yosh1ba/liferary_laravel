@@ -212,8 +212,6 @@ export default {
 
 				const response = await axios.get(`/api/posts/registerd/${this.$store.getters['auth/userid']}`)
 
-				console.log(response)
-
 				if(response.data){
 					this.registerd = true
 
