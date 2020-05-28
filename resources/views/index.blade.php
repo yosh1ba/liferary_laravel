@@ -14,6 +14,8 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://hypertext-candy.s3-ap-northeast-1.amazonaws.com/posts/vue-laravel-tutorial/app.css">
+
+    <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}">
 </head>
 <body>
 <div id="app"></div>
