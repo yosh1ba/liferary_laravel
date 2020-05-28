@@ -100,7 +100,7 @@
         const result = window.confirm('退会してよろしいですか？');
         if(result){
           await this.$store.dispatch('auth/withdraw')
-          this.$router.go({name:'HOME'})
+          // this.$router.go({name:'HOME'})
         }
       }
     },
