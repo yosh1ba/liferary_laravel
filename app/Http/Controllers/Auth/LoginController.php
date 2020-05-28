@@ -11,6 +11,7 @@ use Illuminate\Http\Request; // ★ 追加
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use SebastianBergmann\Environment\Console;
 
 class LoginController extends Controller
 {
@@ -57,6 +58,16 @@ class LoginController extends Controller
         $request->session()->regenerate();
 
         return response()->json();
+    }
+
+    public function withdraw(Request $request)
+    {
+        $request->session()->regenerate();
+        
+        $user = User::find($this->guard()->user()->id);
+        $user->delete();
+        Auth::logout();
+        return redirect('/');
     }
     
 }

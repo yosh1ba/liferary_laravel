@@ -117,7 +117,7 @@ const actions = {
   async withdraw (context) {
     console.log(context)
     context.commit('setApiStatus', null);
-    const response = await axios.post('/api/withdraw','106');
+    const response = await axios.post('/api/withdraw',this.state.userid);
 
     if (response.status === OK) {
       context.commit('setApiStatus', true)
